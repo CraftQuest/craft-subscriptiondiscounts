@@ -1,0 +1,49 @@
+{
+    "name": "craftquest/subscription-discounts",
+    "description": "Introduces support for Stripe discounts in Craft Commerce subscriptions.",
+    "type": "craft-plugin",
+    "version": "1.0.0",
+    "keywords": [
+        "craft",
+        "cms",
+        "craftcms",
+        "craft-plugin",
+        "subscription discounts"
+    ],
+    "support": {
+        "docs": "https://github.com/ryanirelan/subscription-discounts/blob/master/README.md",
+        "issues": "https://github.com/ryanirelan/subscription-discounts/issues"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Ryan Irelan",
+            "homepage": "https://craftquest.io"
+        }
+    ],
+    "require": {
+        "craftcms/cms": "^3.0.0"
+    },
+    "require-dev": {
+      "craftcms/cms": "^3.2.0",
+      "codeception/codeception": "^3.0",
+      "vlucas/phpdotenv": "^3.0"
+    },
+    "autoload": {
+        "psr-4": {
+          "craftquest\\subscriptiondiscounts\\": "src/"
+        }
+    },
+    "extra": {
+        "name": "Subscription Discounts",
+        "handle": "subscription-discounts",
+        "developer": "Ryan Irelan",
+        "developerUrl": "https://craftquest.io",
+        "documentationUrl": "https://github.com/ryanirelan/subscription-discounts/blob/master/README.md",
+        "changelogUrl": "https://raw.githubusercontent.com/ryanirelan/subscription-discounts/master/CHANGELOG.md",
+        "components": {
+            "subscriptionDiscountsService": "craftquest\\subscriptiondiscounts\\services\\SubscriptionDiscountsService"
+        },
+        "class": "craftquest\\subscriptiondiscounts\\SubscriptionDiscounts"
+    }
+}
