@@ -40,7 +40,29 @@
 
 {# The content of the CP Section#}
 {% set content %}
-    <h2>{{ "Index CP Section body goes here"|t('subscription-discounts') }}</h2>
-    <img src="{{ iconUrl }}" height="64" width="64" />
-    <p class="textline"></p>
+    <h2>Manage Available Coupons</h2>
+    <p class="textline">Add/remove coupons here. This is not connected to Stripe coupons but only for passing along description information on the front-end.</p>
+    {{ forms.textField({
+        first: true,
+        label: "Coupon Code"|t('subscription-discounts'),
+        instructions: "This is the code passed to Stripe. It must exist in Stripe already."|t('subscription-discounts'),
+        id: 'coupon',
+        name: 'coupon_code',
+        value: coupon.coupon_code,
+        errors: coupon.getErrors('coupon_code'),
+        autofocus: true,
+        required: true,
+    }) }}
+
+    {{ forms.textField({
+        label: "Coupon Description"|t('subscription-discounts'),
+        instructions: "This should describe the coupon and what it does. This description will show on the front-end."|t('subscription-discounts'),
+        id: 'description',
+        name: 'description',
+        value: coupon.description,
+        errors: coupon.getErrors('description'),
+        required: true,
+    }) }}
+    
+
 {% endset %}
