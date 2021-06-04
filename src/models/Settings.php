@@ -16,7 +16,9 @@ use Craft;
 use craft\base\Model;
 
 /**
- * SubscriptionDiscountsModel Model
+ * SubscriptionDiscounts Settings Model
+ *
+ * This is a model used to define the plugin's settings.
  *
  * Models are containers for data. Just about every time information is passed
  * between services, controllers, and templates in Craft, it’s passed via a model.
@@ -27,13 +29,13 @@ use craft\base\Model;
  * @package   SubscriptionDiscounts
  * @since     0.1.0
  */
-class SubscriptionDiscountsModel extends Model
+class Settings extends Model
 {
     // Public Properties
     // =========================================================================
 
     /**
-     * Some model attribute
+     * Some field model attribute
      *
      * @var string
      */

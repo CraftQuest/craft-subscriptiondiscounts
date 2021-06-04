@@ -1,6 +1,6 @@
 # Subscription Discounts plugin for Craft CMS 3.x
 
-Introduces support for Stripe discounts in Craft Commerce subscriptions.
+Enables support in Craft Commerce for Stripe coupons to be applied to a subscription.
 
 ![Screenshot](resources/img/plugin-logo.png)
 
@@ -18,7 +18,7 @@ To install the plugin, follow these instructions.
 
 2. Then tell Composer to load the plugin:
 
-        composer require ryanirelan/subscription-discounts
+        composer require CraftQuest/subscription-discounts
 
 3. In the Control Panel, go to Settings → Plugins and click the “Install” button for Subscription Discounts.
 

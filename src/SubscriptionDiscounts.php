@@ -2,7 +2,7 @@
 /**
  * Subscription Discounts plugin for Craft CMS 3.x
  *
- * Introduces support for Stripe discounts in Craft Commerce subscriptions.
+ * Enables support in Craft Commerce for Stripe coupons to be applied to a subscription.
  *
  * @link      https://craftquest.io
  * @copyright Copyright (c) 2021 Ryan Irelan
@@ -10,23 +10,20 @@
 
 namespace craftquest\subscriptiondiscounts;
 
-use craft\commerce\events\CreateSubscriptionEvent;
 use craftquest\subscriptiondiscounts\services\SubscriptionDiscountsService as SubscriptionDiscountsServiceService;
+use craftquest\subscriptiondiscounts\variables\SubscriptionDiscountsVariable;
+use craftquest\subscriptiondiscounts\models\Settings;
 
 use Craft;
 use craft\base\Plugin;
 use craft\services\Plugins;
 use craft\events\PluginEvent;
 use craft\web\UrlManager;
+use craft\web\twig\variables\CraftVariable;
 use craft\events\RegisterUrlRulesEvent;
-use craft\commerce\stripe;
-use craft\commerce\services\Subscriptions;
-use craft\elements\User;
-use craft\commerce\base\Plan;
-use craft\commerce\models\subscriptions\SubscriptionForm;
-use craft\commerce\stripe\events\SubscriptionRequestEvent;
-use craft\commerce\stripe\base\SubscriptionGateway as StripeGateway;
+
 use yii\base\Event;
+
 /**
  * Craft plugins are very much like little applications in and of themselves. We’ve made
  * it as simple as we can, but the training wheels are off. A little prior knowledge is
@@ -39,9 +36,11 @@ use yii\base\Event;
  *
  * @author    Ryan Irelan
  * @package   SubscriptionDiscounts
- * @since     1.0.0
+ * @since     0.1.0
  *
  * @property  SubscriptionDiscountsServiceService $subscriptionDiscountsService
+ * @property  Settings $settings
+ * @method    Settings getSettings()
  */
 class SubscriptionDiscounts extends Plugin
 {
@@ -64,21 +63,21 @@ class SubscriptionDiscounts extends Plugin
      *
      * @var string
      */
-    public $schemaVersion = '1.0.0';
+    public $schemaVersion = '0.1.0';
 
     /**
      * Set to `true` if the plugin should have a settings view in the control panel.
      *
      * @var bool
      */
-    public $hasCpSettings = false;
+    public $hasCpSettings = true;
 
     /**
      * Set to `true` if the plugin should have its own section (main nav item) in the control panel.
      *
      * @var bool
      */
-    public $hasCpSection = false;
+    public $hasCpSection = true;
 
     // Public Methods
     // =========================================================================
@@ -104,6 +103,7 @@ class SubscriptionDiscounts extends Plugin
             StripeGateway::EVENT_BEFORE_SUBSCRIBE,
             function(SubscriptionRequestEvent $event) {
                 $event->parameters['coupon'] = Craft::$app->getRequest()->getBodyParam('coupon');
+
                 //TODO: validate the coupon against Stripe and return a response if it's not valid.
             }
         );
@@ -126,6 +126,17 @@ class SubscriptionDiscounts extends Plugin
             }
         );
 
+        // Register our variables
+        Event::on(
+            CraftVariable::class,
+            CraftVariable::EVENT_INIT,
+            function (Event $event) {
+                /** @var CraftVariable $variable */
+                $variable = $event->sender;
+                $variable->set('subscriptionDiscounts', SubscriptionDiscountsVariable::class);
+            }
+        );
+
         // Do something after we're installed
         Event::on(
             Plugins::class,
@@ -137,24 +148,24 @@ class SubscriptionDiscounts extends Plugin
             }
         );
 
-        /**
-         * Logging in Craft involves using one of the following methods:
-         *
-         * Craft::trace(): record a message to trace how a piece of code runs. This is mainly for development use.
-         * Craft::info(): record a message that conveys some useful information.
-         * Craft::warning(): record a warning message that indicates something unexpected has happened.
-         * Craft::error(): record a fatal error that should be investigated as soon as possible.
-         *
-         * Unless `devMode` is on, only Craft::warning() & Craft::error() will log to `craft/storage/logs/web.log`
-         *
-         * It's recommended that you pass in the magic constant `__METHOD__` as the second parameter, which sets
-         * the category to the method (prefixed with the fully qualified class name) where the constant appears.
-         *
-         * To enable the Yii debug toolbar, go to your user account in the AdminCP and check the
-         * [] Show the debug toolbar on the front end & [] Show the debug toolbar on the Control Panel
-         *
-         * http://www.yiiframework.com/doc-2.0/guide-runtime-logging.html
-         */
+/**
+ * Logging in Craft involves using one of the following methods:
+ *
+ * Craft::trace(): record a message to trace how a piece of code runs. This is mainly for development use.
+ * Craft::info(): record a message that conveys some useful information.
+ * Craft::warning(): record a warning message that indicates something unexpected has happened.
+ * Craft::error(): record a fatal error that should be investigated as soon as possible.
+ *
+ * Unless `devMode` is on, only Craft::warning() & Craft::error() will log to `craft/storage/logs/web.log`
+ *
+ * It's recommended that you pass in the magic constant `__METHOD__` as the second parameter, which sets
+ * the category to the method (prefixed with the fully qualified class name) where the constant appears.
+ *
+ * To enable the Yii debug toolbar, go to your user account in the AdminCP and check the
+ * [] Show the debug toolbar on the front end & [] Show the debug toolbar on the Control Panel
+ *
+ * http://www.yiiframework.com/doc-2.0/guide-runtime-logging.html
+ */
         Craft::info(
             Craft::t(
                 'subscription-discounts',
@@ -168,4 +179,29 @@ class SubscriptionDiscounts extends Plugin
     // Protected Methods
     // =========================================================================
 
+    /**
+     * Creates and returns the model used to store the plugin’s settings.
+     *
+     * @return \craft\base\Model|null
+     */
+    protected function createSettingsModel()
+    {
+        return new Settings();
+    }
+
+    /**
+     * Returns the rendered settings HTML, which will be inserted into the content
+     * block on the settings page.
+     *
+     * @return string The rendered settings HTML
+     */
+    protected function settingsHtml(): string
+    {
+        return Craft::$app->view->renderTemplate(
+            'subscription-discounts/settings',
+            [
+                'settings' => $this->getSettings()
+            ]
+        );
+    }
 }

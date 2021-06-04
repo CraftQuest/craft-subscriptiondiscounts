@@ -1,0 +1,26 @@
+{# @var craft \craft\web\twig\variables\CraftVariable #}
+{#
+/**
+ * Subscription Discounts plugin for Craft CMS 3.x
+ *
+ * Subscription Discounts Settings.twig
+ *
+ * @author    Ryan Irelan
+ * @copyright Copyright (c) 2021 Ryan Irelan
+ * @link      https://craftquest.io
+ * @package   SubscriptionDiscounts
+ * @since     0.1.0
+ */
+#}
+
+{% import "_includes/forms" as forms %}
+
+{% do view.registerAssetBundle("craftquest\\subscriptiondiscounts\\assetbundles\\subscriptiondiscounts\\SubscriptionDiscountsAsset") %}
+
+{{ forms.textField({
+    label: 'Some Field',
+    instructions: 'Enter some setting here.',
+    id: 'someAttribute',
+    name: 'someAttribute',
+    value: settings['someAttribute']})
+}}

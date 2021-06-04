@@ -1,8 +1,8 @@
 {
     "name": "craftquest/subscription-discounts",
-    "description": "Introduces support for Stripe discounts in Craft Commerce subscriptions.",
+    "description": "Enables support in Craft Commerce for Stripe coupons to be applied to a subscription.",
     "type": "craft-plugin",
-    "version": "1.0.0",
+    "version": "0.1.0",
     "keywords": [
         "craft",
         "cms",
@@ -11,8 +11,8 @@
         "subscription discounts"
     ],
     "support": {
-        "docs": "https://github.com/ryanirelan/subscription-discounts/blob/master/README.md",
-        "issues": "https://github.com/ryanirelan/subscription-discounts/issues"
+        "docs": "https://github.com/CraftQuest/subscription-discounts/blob/master/README.md",
+        "issues": "https://github.com/CraftQuest/subscription-discounts/issues"
     },
     "license": "MIT",
     "authors": [
@@ -39,8 +39,8 @@
         "handle": "subscription-discounts",
         "developer": "Ryan Irelan",
         "developerUrl": "https://craftquest.io",
-        "documentationUrl": "https://github.com/ryanirelan/subscription-discounts/blob/master/README.md",
-        "changelogUrl": "https://raw.githubusercontent.com/ryanirelan/subscription-discounts/master/CHANGELOG.md",
+        "documentationUrl": "https://github.com/CraftQuest/subscription-discounts/blob/master/README.md",
+        "changelogUrl": "https://raw.githubusercontent.com/CraftQuest/subscription-discounts/master/CHANGELOG.md",
         "components": {
             "subscriptionDiscountsService": "craftquest\\subscriptiondiscounts\\services\\SubscriptionDiscountsService"
         },

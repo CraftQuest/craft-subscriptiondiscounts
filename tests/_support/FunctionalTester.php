@@ -2,7 +2,7 @@
 /**
  * Subscription Discounts plugin for Craft CMS 3.x
  *
- * Introduces support for Stripe discounts in Craft Commerce subscriptions.
+ * Enables support in Craft Commerce for Stripe coupons to be applied to a subscription.
  *
  * @link      https://craftquest.io
  * @copyright Copyright (c) 2021 Ryan Irelan

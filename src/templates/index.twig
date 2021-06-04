@@ -1,0 +1,46 @@
+{# @var craft \craft\web\twig\variables\CraftVariable #}
+{#
+/**
+ * Subscription Discounts plugin for Craft CMS 3.x
+ *
+ * Subscription Discounts index.twig
+ *
+ * @author    Ryan Irelan
+ * @copyright Copyright (c) 2021 Ryan Irelan
+ * @link      https://craftquest.io
+ * @package   SubscriptionDiscounts
+ * @since     0.1.0
+ */
+#}
+
+{% extends "_layouts/cp" %}
+{% import "_includes/forms" as forms %}
+
+{% do view.registerAssetBundle("craftquest\\subscriptiondiscounts\\assetbundles\\subscriptiondiscounts\\SubscriptionDiscountsAsset") %}
+{% do view.registerAssetBundle("craftquest\\subscriptiondiscounts\\assetbundles\\indexcpsection\\IndexCPSectionAsset") %}
+
+{# Link for the ? icon at the bottom of the page #}
+{% set docsUrl = "https://github.com/CraftQuest/subscription-discounts/blob/master/README.md" %}
+
+{# The title of this CP section #}
+{% set title = "Subscription Discounts" %}
+
+{# The URL to this plugin's base CP section #}
+{% set pluginCpUrl = url('subscription-discounts') %}
+
+{# Get a URL to an image in our AssetBundle #}
+{% set iconUrl = view.getAssetManager().getPublishedUrl('@craftquest/subscriptiondiscounts/assetbundles/indexcpsection/dist', true) ~ '/img/Index-icon.svg' %}
+
+{# Content that should appear in the page header#}
+{% set extraPageHeaderHtml %}
+    <div class="buttons">
+        <a href="{{ pluginCpUrl }}" class="btn submit add icon">{{ "Click Me!"|t('subscription-discounts') }}</a>
+    </div>
+{% endset %}
+
+{# The content of the CP Section#}
+{% set content %}
+    <h2>{{ "Index CP Section body goes here"|t('subscription-discounts') }}</h2>
+    <img src="{{ iconUrl }}" height="64" width="64" />
+    <p class="textline"></p>
+{% endset %}
