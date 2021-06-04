@@ -11,6 +11,7 @@
 namespace craftquest\subscriptiondiscounts\variables;
 
 use craftquest\subscriptiondiscounts\SubscriptionDiscounts;
+use craftquest\subscriptionsdiscounts\SubscriptionDiscountService;
 
 use Craft;
 
@@ -52,5 +53,15 @@ class SubscriptionDiscountsVariable
             $result = "I'm feeling optional today...";
         }
         return $result;
+    }
+
+    public function coupons()
+    {
+        return SubscriptionDiscounts::$plugin->subscriptionDiscountsService->getCoupons();
+    }
+
+    public function coupon($coupon_code)
+    {
+        return SubscriptionDiscounts::$plugin->subscriptionDiscountsService->getCoupon($coupon_code);
     }
 }

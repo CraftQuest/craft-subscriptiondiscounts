@@ -57,23 +57,37 @@ class DefaultController extends Controller
      *
      * @return mixed
      */
-    public function actionIndex()
+    public function actionSaveCoupon()
     {
-        $result = 'Welcome to the DefaultController actionIndex() method';
+        $coupon_code = Craft::$app->getRequest()->getParam('coupon_code');
+        $coupon_description = Craft::$app->getRequest()->getParam('description');
+        if (!SubscriptionDiscounts::$plugin->subscriptionDiscountsService->createCoupon($coupon_code, $coupon_description)) {
+            return $this->_getError('Could not add the coupon.');
+        }
 
-        return $result;
     }
 
-    /**
-     * Handle a request going to our plugin's actionDoSomething URL,
-     * e.g.: actions/subscription-discounts/default/do-something
-     *
-     * @return mixed
-     */
-    public function actionDoSomething()
+    public function actionDeleteCoupon()
     {
-        $result = 'Welcome to the DefaultController actionDoSomething() method';
+        $id = Craft::$app->getRequest()->getParam('id');
+        if(!SubscriptionDiscounts::$plugin->subscriptionDiscountsService->deleteCoupon($id)) {
+            return $this->_getError('There was a problem deleting the coupon.');
+        }
+    }
 
-        return $result;
+
+    private function _getError(string $message = '')
+    {
+        if (Craft::$app->getRequest()->getAcceptsJson()) {
+            return $this->asJson([
+                'success' => false,
+                'message' => $message,
+            ]);
+        }
+
+        Craft::$app->getSession()->setError($message);
+
+        return null;
     }
 }
+

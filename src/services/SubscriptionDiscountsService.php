@@ -11,7 +11,7 @@
 namespace craftquest\subscriptiondiscounts\services;
 
 use craftquest\subscriptiondiscounts\SubscriptionDiscounts;
-
+use craftquest\subscriptiondiscounts\records\CouponRecord;
 use Craft;
 use craft\base\Component;
 
@@ -43,13 +43,40 @@ class SubscriptionDiscountsService extends Component
      *
      * @return mixed
      */
-    public function exampleService()
+    public function createCoupon($coupon_code, $coupon_description)
     {
-        $result = 'something';
-        // Check our Plugin's settings for `someAttribute`
-        if (SubscriptionDiscounts::$plugin->getSettings()->someAttribute) {
+        $couponRecord = new CouponRecord([
+            'coupon_code' => $coupon_code,
+            'description' => $coupon_description
+        ]);
+
+        if($couponRecord->save())
+        {
+            return true;
+        }
+    }
+
+    public function deleteCoupon($id): bool
+    {
+        $couponRecord = CouponRecord::find()
+            ->where(['id' => $id])
+            ->one();
+
+        if ($couponRecord === null) {
+            return false;
         }
 
-        return $result;
+        return $couponRecord->delete();
     }
+
+    public function getCoupons()
+    {
+        return CouponRecord::find()->select('id, coupon_code, description')->all();
+    }
+
+    public function getCoupon($coupon_code)
+    {
+        return CouponRecord::find()->select('id, coupon_code, description')->where(['coupon_code' => $coupon_code])->one();
+    }
+
 }
