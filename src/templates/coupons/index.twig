@@ -1,0 +1,75 @@
+{# @var craft \craft\web\twig\variables\CraftVariable #}
+{#
+/**
+ * Subscription Discounts plugin for Craft CMS 3.x
+ *
+ * Subscription Discounts index.twig
+ *
+ * @author    Ryan Irelan
+ * @copyright Copyright (c) 2021 Ryan Irelan
+ * @link      https://craftquest.io
+ * @package   SubscriptionDiscounts
+ * @since     0.1.0
+ */
+#}
+
+{% extends "_layouts/cp" %}
+{% import "_includes/forms" as forms %}
+{% set crumbs = [
+    {
+        label: 'Subscription Coupons'|t('subscription-discounts'),
+        url: url('subscription-discounts'),
+    }
+] %}
+{% do view.registerAssetBundle("craftquest\\subscriptiondiscounts\\assetbundles\\subscriptiondiscounts\\SubscriptionDiscountsAsset") %}
+{% do view.registerAssetBundle("craftquest\\subscriptiondiscounts\\assetbundles\\indexcpsection\\IndexCPSectionAsset") %}
+
+{# Link for the ? icon at the bottom of the page #}
+{% set docsUrl = "https://github.com/CraftQuest/subscription-discounts/blob/master/README.md" %}
+
+{# The title of this CP section #}
+{% set title = "Subscription Discounts" %}
+
+{# The URL to this plugin's base CP section #}
+{% set pluginCpUrl = url('subscription-discounts') %}
+
+{# Get a URL to an image in our AssetBundle #}
+{% set iconUrl = view.getAssetManager().getPublishedUrl('@craftquest/subscriptiondiscounts/assetbundles/indexcpsection/dist', true) ~ '/img/Index-icon.svg' %}
+{% block actionButton %}
+    <a class="btn submit add icon" href="{{ pluginCpUrl ~ '/coupons/new' }}">{{ 'New Coupon'|t('subscription-discounts') }}</a>
+{% endblock %}
+{# The content of the CP Section#}
+{% set content %}
+    {# List all coupons in system #}
+    {% set coupons = craft.subscriptionDiscounts.coupons %}
+    {% if coupons | length %}
+    <table id="feeds" class="data fullwidth collapsible table-feed-me">
+        <thead>
+        <th scope="col">{{ "Coupon Code"|t('subscription-discounts') }}</th>
+        <th scope="col">{{ "Description"|t('subscription-discounts') }}</th>
+    <th class="thin" colspan="3"></th>
+        </thead>
+        <tbody>
+        {% for coupon in coupons %}
+        <tr data-id="{{ coupon.id }}" data-name="{{ coupon.coupon_code|t('subscription-discounts') }}">
+            <th scope="row" data-title="Coupon Code">
+                <a href="#">{{ coupon.coupon_code|t('subscription-discounts') }}</a>
+            </th>
+
+            <td>{{ coupon.description }}</td>
+
+            <td class="thin action">
+                <form action="" method="post">
+                    <input type="hidden" name="action" value="subscription-discounts/default/delete-coupon">
+                    <input type="hidden" name="id" value="{{ coupon.id }}">
+                    {{ csrfInput() }}
+                    {{ redirectInput("subscription-discounts/coupons") }}
+                <button type="submit" class="delete icon" title="{{ 'Delete'|t('subscription-discounts') }}" role="button"></button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+{% endset %}

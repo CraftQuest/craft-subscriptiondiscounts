@@ -1,0 +1,73 @@
+{# @var craft \craft\web\twig\variables\CraftVariable #}
+{#
+/**
+ * Subscription Discounts plugin for Craft CMS 3.x
+ *
+ * Subscription Discounts coupons/new.twig
+ *
+ * @author    Ryan Irelan
+ * @copyright Copyright (c) 2021 Ryan Irelan
+ * @link      https://craftquest.io
+ * @package   SubscriptionDiscounts
+ * @since     0.1.0
+ */
+#}
+
+
+{% extends "_layouts/cp" %}
+{% import "_includes/forms" as forms %}
+{% set crumbs = [
+    {
+        label: 'Subscription Coupons'|t('subscription-discounts'),
+        url: url('subscription-discounts'),
+    },
+    {
+        label: 'Coupons'|t('subscription-discounts'),
+        url: url('subscription-discounts/coupons'),
+    },
+] %}
+
+{% do view.registerAssetBundle("craftquest\\subscriptiondiscounts\\assetbundles\\subscriptiondiscounts\\SubscriptionDiscountsAsset") %}
+{% do view.registerAssetBundle("craftquest\\subscriptiondiscounts\\assetbundles\\indexcpsection\\IndexCPSectionAsset") %}
+
+{# Link for the ? icon at the bottom of the page #}
+{% set docsUrl = "https://github.com/CraftQuest/subscription-discounts/blob/master/README.md" %}
+
+{# The title of this CP section #}
+{% set title = "Create a New Subscription Coupon" %}
+
+{# The URL to this plugin's base CP section #}
+{% set pluginCpUrl = url('subscription-discounts') %}
+
+{# Get a URL to an image in our AssetBundle #}
+{% set iconUrl = view.getAssetManager().getPublishedUrl('@craftquest/subscriptiondiscounts/assetbundles/indexcpsection/dist', true) ~ '/img/Index-icon.svg' %}
+{% block actionButton %}
+    <form action="" method="post">
+    <input type="submit" class="btn submit" value="{{ 'Save'|t('app') }}">
+    <input type="hidden" name="action" value="subscription-discounts/default/save-coupon">
+    {{ csrfInput() }}
+    {{ redirectInput("subscription-discounts/coupons") }}
+{% endblock %}
+{# The content of the CP Section#}
+{% set content %}
+    {{ forms.textField({
+        first: true,
+        label: "Coupon Code"|t('subscription-discounts'),
+        instructions: "This is the code passed to Stripe. It must exist in Stripe already."|t('subscription-discounts'),
+        id: 'coupon',
+        name: 'coupon_code',
+        value: '',
+        autofocus: true,
+        required: true,
+    }) }}
+
+    {{ forms.textField({
+        label: "Coupon Description"|t('subscription-discounts'),
+        instructions: "This should describe the coupon and what it does. This description will show on the front-end."|t('subscription-discounts'),
+        id: 'description',
+        name: 'description',
+        value: '',
+        required: true,
+    }) }}
+    </form>
+{% endset %}
