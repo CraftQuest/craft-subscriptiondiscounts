@@ -98,11 +98,11 @@ class Install extends Migration
         $tablesCreated = false;
 
     // subscriptiondiscounts_subscriptiondiscountsrecord table
-        $tableSchema = Craft::$app->db->schema->getTableSchema('{{%subscriptiondiscounts_coupons}}');
+        $tableSchema = Craft::$app->db->schema->getTableSchema('{{%subscriptiondiscounts_subscriptiondiscountsrecord}}');
         if ($tableSchema === null) {
             $tablesCreated = true;
             $this->createTable(
-                '{{%subscriptiondiscounts_coupons}}',
+                '{{%subscriptiondiscounts_subscriptiondiscountsrecord}}',
                 [
                     'id' => $this->primaryKey(),
                     'dateCreated' => $this->dateTime()->notNull(),
