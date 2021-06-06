@@ -98,11 +98,11 @@ class Install extends Migration
         $tablesCreated = false;
 
     // subscriptiondiscounts_subscriptiondiscountsrecord table
-        $tableSchema = Craft::$app->db->schema->getTableSchema('{{%subscriptiondiscounts_subscriptiondiscountsrecord}}');
+        $tableSchema = Craft::$app->db->schema->getTableSchema('{{%subscriptiondiscounts_coupons}}');
         if ($tableSchema === null) {
             $tablesCreated = true;
             $this->createTable(
-                '{{%subscriptiondiscounts_subscriptiondiscountsrecord}}',
+                '{{%subscriptiondiscounts_coupons}}',
                 [
                     'id' => $this->primaryKey(),
                     'dateCreated' => $this->dateTime()->notNull(),
@@ -129,11 +129,11 @@ class Install extends Migration
     // subscriptiondiscounts_subscriptiondiscountsrecord table
         $this->createIndex(
             $this->db->getIndexName(
-                '{{%subscriptiondiscounts_subscriptiondiscountsrecord}}',
+                '{{%subscriptiondiscounts_coupons}}',
                 'some_field',
                 true
             ),
-            '{{%subscriptiondiscounts_subscriptiondiscountsrecord}}',
+            '{{%subscriptiondiscounts_coupons}}',
             'some_field',
             true
         );
@@ -155,8 +155,8 @@ class Install extends Migration
     {
     // subscriptiondiscounts_subscriptiondiscountsrecord table
         $this->addForeignKey(
-            $this->db->getForeignKeyName('{{%subscriptiondiscounts_subscriptiondiscountsrecord}}', 'siteId'),
-            '{{%subscriptiondiscounts_subscriptiondiscountsrecord}}',
+            $this->db->getForeignKeyName('{{%subscriptiondiscounts_coupons}}', 'siteId'),
+            '{{%subscriptiondiscounts_coupons}}',
             'siteId',
             '{{%sites}}',
             'id',
@@ -182,6 +182,6 @@ class Install extends Migration
     protected function removeTables()
     {
     // subscriptiondiscounts_subscriptiondiscountsrecord table
-        $this->dropTableIfExists('{{%subscriptiondiscounts_subscriptiondiscountsrecord}}');
+        $this->dropTableIfExists('{{%subscriptiondiscounts_coupons}}');
     }
 }
