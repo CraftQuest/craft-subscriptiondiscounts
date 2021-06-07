@@ -57,7 +57,7 @@ class Install extends Migration
     {
         $this->driver = Craft::$app->getConfig()->getDb()->driver;
         if ($this->createTables()) {
-            $this->createIndexes();
+//            $this->createIndexes();
             $this->addForeignKeys();
             // Refresh the db schema caches
             Craft::$app->db->schema->refresh();
@@ -126,24 +126,6 @@ class Install extends Migration
      */
     protected function createIndexes()
     {
-    // subscriptiondiscounts_subscriptiondiscountsrecord table
-        $this->createIndex(
-            $this->db->getIndexName(
-                '{{%subscriptiondiscounts_coupons}}',
-                'some_field',
-                true
-            ),
-            '{{%subscriptiondiscounts_coupons}}',
-            'some_field',
-            true
-        );
-        // Additional commands depending on the db driver
-        switch ($this->driver) {
-            case DbConfig::DRIVER_MYSQL:
-                break;
-            case DbConfig::DRIVER_PGSQL:
-                break;
-        }
     }
 
     /**
@@ -153,7 +135,6 @@ class Install extends Migration
      */
     protected function addForeignKeys()
     {
-    // subscriptiondiscounts_subscriptiondiscountsrecord table
         $this->addForeignKey(
             $this->db->getForeignKeyName('{{%subscriptiondiscounts_coupons}}', 'siteId'),
             '{{%subscriptiondiscounts_coupons}}',
@@ -181,7 +162,6 @@ class Install extends Migration
      */
     protected function removeTables()
     {
-    // subscriptiondiscounts_subscriptiondiscountsrecord table
         $this->dropTableIfExists('{{%subscriptiondiscounts_coupons}}');
     }
 }
