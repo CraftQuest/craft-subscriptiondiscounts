@@ -6,4 +6,4 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 
 ## 0.1.0 - 2021-06-04
 ### Added
-- Initial release
+- First internal version
