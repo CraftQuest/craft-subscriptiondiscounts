@@ -70,21 +70,21 @@ class SubscriptionDiscounts extends Plugin
      *
      * @var string
      */
-    public $schemaVersion = '0.1.0';
+    public string $schemaVersion = '0.1.0';
 
     /**
      * Set to `true` if the plugin should have a settings view in the control panel.
      *
      * @var bool
      */
-    public $hasCpSettings = true;
+    public bool $hasCpSettings = true;
 
     /**
      * Set to `true` if the plugin should have its own section (main nav item) in the control panel.
      *
      * @var bool
      */
-    public $hasCpSection = true;
+    public bool $hasCpSection = true;
 
     // Public Methods
     // =========================================================================
@@ -110,7 +110,6 @@ class SubscriptionDiscounts extends Plugin
             StripeGateway::EVENT_BEFORE_SUBSCRIBE,
             function(SubscriptionRequestEvent $event) {
                 $event->parameters['coupon'] = Craft::$app->getRequest()->getBodyParam('coupon');
-
                 //TODO: validate the coupon against Stripe and return a response if it's not valid.
             }
         );
@@ -191,7 +190,7 @@ class SubscriptionDiscounts extends Plugin
      *
      * @return \craft\base\Model|null
      */
-    protected function createSettingsModel()
+    protected function createSettingsModel(): ?\craft\base\Model
     {
         return new Settings();
     }
@@ -202,7 +201,7 @@ class SubscriptionDiscounts extends Plugin
      *
      * @return string The rendered settings HTML
      */
-    protected function settingsHtml(): string
+    protected function settingsHtml(): ?string
     {
         return Craft::$app->view->renderTemplate(
             'subscription-discounts/settings',
