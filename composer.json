@@ -2,7 +2,7 @@
     "name": "craftquest/subscription-discounts",
     "description": "Enables support in Craft Commerce for Stripe coupons to be applied to a subscription.",
     "type": "craft-plugin",
-    "version": "0.1.0",
+    "version": "2.0.0",
     "keywords": [
         "craft",
         "cms",
@@ -22,10 +22,10 @@
         }
     ],
     "require": {
-        "craftcms/cms": "^3.0.0"
+        "craftcms/cms": "^4.0.0"
     },
     "require-dev": {
-      "craftcms/cms": "^3.2.0",
+      "craftcms/cms": "^4.0.0",
       "codeception/codeception": "^3.0",
       "vlucas/phpdotenv": "^3.0"
     },
